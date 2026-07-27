@@ -1,0 +1,46 @@
+---
+---
+<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark and light theme">
+  <span class="theme-toggle__icon" aria-hidden="true">&#9788;</span>
+  <span class="theme-toggle__label">Theme</span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var STORAGE_KEY = "vault-theme";
+    var root = document.documentElement;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      var button = document.getElementById("theme-toggle");
+      if (!button) return;
+      button.addEventListener("click", function () {
+        var prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+        var current = root.getAttribute("data-theme") || (prefersLight ? "light" : "dark");
+        var next = current === "dark" ? "light" : "dark";
+        localStorage.setItem(STORAGE_KEY, next);
+        root.setAttribute("data-theme", next);
+      });
+    });
+  })();
+</script>
