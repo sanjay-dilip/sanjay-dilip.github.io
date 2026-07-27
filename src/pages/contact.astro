@@ -1,9 +1,65 @@
 ---
 import VaultLayout from "../layouts/VaultLayout.astro";
+
+const email = "sanjay.dilip3012@gmail.com";
+const links = [
+  { href: `mailto:${email}`, label: "Email me", detail: email },
+  { href: "https://www.linkedin.com/in/sanjaydilip", label: "LinkedIn", detail: "linkedin.com/in/sanjaydilip" },
+  { href: "https://github.com/sanjay-dilip", label: "GitHub", detail: "github.com/sanjay-dilip" },
+];
 ---
-<VaultLayout title="Contact">
+<VaultLayout title="Contact" description="Get in touch with Sanjay Dilip.">
   <div class="page-content">
     <h1>Contact</h1>
-    <p><em>Contact links coming soon.</em></p>
+    <p>The fastest way to reach me is email — happy to talk about analytics, data engineering, or ML/AI roles and projects.</p>
+
+    <ul class="contact-list">
+      {links.map((link) => (
+        <li>
+          <a href={link.href} class="contact-link">
+            <span class="contact-link__label">{link.label}</span>
+            <span class="contact-link__detail">{link.detail}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
   </div>
 </VaultLayout>
+
+<style>
+  .contact-list {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 28rem;
+  }
+
+  .contact-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+    color: var(--fg);
+  }
+
+  .contact-link:hover,
+  .contact-link:focus-visible {
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  .contact-link__label {
+    font-weight: 700;
+  }
+
+  .contact-link__detail {
+    color: var(--fg-muted);
+    font-size: 0.88rem;
+  }
+</style>

@@ -1,10 +1,125 @@
 ---
+import { getCollection } from "astro:content";
 import VaultLayout from "../layouts/VaultLayout.astro";
+import TagChip from "../components/TagChip.astro";
+
+const featuredProjects = (await getCollection("projects"))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 4);
 ---
-<VaultLayout title="Home">
+<VaultLayout title="Home" description="Sanjay Dilip — Data Analyst and ML/AI builder. Analytics, data engineering, and applied machine learning projects.">
   <div class="page-content">
-    <h1>Sanjay Dilip</h1>
-    <p>Data Analyst &amp; ML/AI builder — analytics, data engineering, and applied machine learning.</p>
-    <p><em>Featured project cards coming soon.</em></p>
+    <section class="hero">
+      <h1>Sanjay Dilip</h1>
+      <p class="hero__tagline">
+        Data Analyst &amp; ML/AI builder — I build end-to-end analytics systems: clean data in,
+        dashboards and decisions out. My work sits at the intersection of BI (Power BI),
+        analytics engineering (SQL + Python), and applied ML when it adds real value.
+      </p>
+      <div class="hero__links">
+        <a class="hero__link hero__link--primary" href="/projects">View all projects →</a>
+        <a class="hero__link" href="https://github.com/sanjay-dilip">GitHub</a>
+        <a class="hero__link" href="https://www.linkedin.com/in/sanjaydilip">LinkedIn</a>
+        <a class="hero__link" href="/resume">Resume</a>
+        <a class="hero__link" href="/contact">Contact</a>
+      </div>
+    </section>
+
+    <h2>Featured Projects</h2>
+    <ul class="featured-list">
+      {featuredProjects.map((project) => (
+        <li class="featured-card">
+          <a href={`/projects/${project.id}`} class="featured-card__title">
+            {project.data.title}
+          </a>
+          <p class="featured-card__summary">{project.data.summary}</p>
+          <p class="featured-card__tags">
+            {project.data.tags.map((tag) => (
+              <TagChip tag={tag} />
+            ))}
+          </p>
+        </li>
+      ))}
+    </ul>
   </div>
 </VaultLayout>
+
+<style>
+  .hero {
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__tagline {
+    color: var(--fg-muted);
+    max-width: 60ch;
+  }
+
+  .hero__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .hero__link {
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-size: 0.9rem;
+  }
+
+  .hero__link:hover,
+  .hero__link:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .hero__link--primary {
+    background: var(--tag-bg);
+    border-color: var(--tag-border);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .featured-list {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .featured-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+    background: var(--bg-elevated);
+  }
+
+  .featured-card__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--fg);
+  }
+
+  .featured-card__title:hover,
+  .featured-card__title:focus-visible {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .featured-card__summary {
+    color: var(--fg-muted);
+    margin: 0.4rem 0 0.6rem;
+  }
+
+  .featured-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+  }
+</style>
