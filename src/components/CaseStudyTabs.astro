@@ -1,0 +1,101 @@
+---
+interface Section {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  sections: Section[];
+}
+
+const { sections } = Astro.props;
+---
+<nav class="case-tabs" aria-label="Case study sections">
+  <ul class="case-tabs__list">
+    {sections.map((section) => (
+      <li>
+        <a href={`#${section.id}`} class="case-tabs__link" data-tab-target={section.id}>
+          {section.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .case-tabs {
+    position: sticky;
+    top: 57px;
+    z-index: 20;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+  }
+
+  .case-tabs__list {
+    list-style: none;
+    display: flex;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0.25rem 0;
+    white-space: nowrap;
+  }
+
+  .case-tabs__link {
+    display: inline-block;
+    padding: 0.5rem 0.85rem;
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+    border-bottom: 2px solid transparent;
+  }
+
+  .case-tabs__link:hover,
+  .case-tabs__link:focus-visible {
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .case-tabs__link[data-active="true"] {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", function () {
+    var links = document.querySelectorAll(".case-tabs__link");
+    if (!links.length) return;
+
+    var targets = Array.prototype.map.call(links, function (link) {
+      var id = link.getAttribute("data-tab-target");
+      return { link: link, section: document.getElementById(id) };
+    }).filter(function (entry) {
+      return entry.section;
+    });
+
+    if (!targets.length || !("IntersectionObserver" in window)) return;
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var match = targets.find(function (t) {
+            return t.section === entry.target;
+          });
+          if (match && entry.isIntersecting) {
+            targets.forEach(function (t) {
+              t.link.removeAttribute("data-active");
+            });
+            match.link.setAttribute("data-active", "true");
+          }
+        });
+      },
+      { rootMargin: "-96px 0px -70% 0px" }
+    );
+
+    targets.forEach(function (t) {
+      observer.observe(t.section);
+    });
+  });
+</script>
