@@ -1,0 +1,147 @@
+---
+import ThemeToggle from "./ThemeToggle.astro";
+
+const quickLinks = [
+  { href: "https://github.com/sanjay-dilip", label: "GitHub" },
+  { href: "https://www.linkedin.com/in/sanjaydilip", label: "LinkedIn" },
+  { href: "/resume", label: "Resume" },
+  { href: "/contact", label: "Contact" },
+];
+---
+<header class="site-header">
+  <button
+    id="sidebar-toggle"
+    class="sidebar-toggle"
+    type="button"
+    aria-label="Toggle navigation"
+    aria-controls="sidebar"
+    aria-expanded="false"
+  >
+    <span aria-hidden="true">&#9776;</span>
+  </button>
+
+  <a href="/" class="site-title">Sanjay Dilip</a>
+
+  <nav class="quick-links" aria-label="Quick links">
+    <ul>
+      {quickLinks.map((link) => (
+        <li>
+          <a href={link.href}>{link.label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <ThemeToggle />
+</header>
+
+<div id="sidebar-backdrop" class="sidebar-backdrop" hidden></div>
+
+<style>
+  .site-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+
+  .site-title {
+    font-weight: 700;
+    color: var(--fg);
+    font-size: 1.05rem;
+  }
+
+  .site-title:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .sidebar-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-size: 1.1rem;
+    padding: 0.35rem 0.6rem;
+    cursor: pointer;
+  }
+
+  .quick-links {
+    margin-left: auto;
+  }
+
+  .quick-links ul {
+    list-style: none;
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  .quick-links a {
+    color: var(--fg);
+    font-size: 0.9rem;
+  }
+
+  .quick-links a:hover,
+  .quick-links a:focus-visible {
+    color: var(--accent);
+  }
+
+  .sidebar-backdrop {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .sidebar-toggle {
+      display: inline-flex;
+    }
+
+    .quick-links ul {
+      gap: 0.85rem;
+    }
+
+    .sidebar-backdrop[data-open="true"] {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 35;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", function () {
+    var toggle = document.getElementById("sidebar-toggle");
+    var sidebar = document.getElementById("sidebar");
+    var backdrop = document.getElementById("sidebar-backdrop");
+    if (!toggle || !sidebar || !backdrop) return;
+
+    function setOpen(open) {
+      sidebar.setAttribute("data-open", open ? "true" : "false");
+      backdrop.setAttribute("data-open", open ? "true" : "false");
+      backdrop.hidden = !open;
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+
+    toggle.addEventListener("click", function () {
+      var isOpen = sidebar.getAttribute("data-open") === "true";
+      setOpen(!isOpen);
+    });
+
+    backdrop.addEventListener("click", function () {
+      setOpen(false);
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") setOpen(false);
+    });
+  });
+</script>
