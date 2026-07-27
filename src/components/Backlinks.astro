@@ -1,0 +1,66 @@
+---
+interface RelatedItem {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  title?: string;
+  items: RelatedItem[];
+}
+
+const { title = "Related Notes", items } = Astro.props;
+---
+{items.length > 0 && (
+  <section class="backlinks" aria-label={title}>
+    <h2 class="backlinks__title">[[{title}]]</h2>
+    <ul class="backlinks__list">
+      {items.map((item) => (
+        <li>
+          <a href={item.href}>{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
+<style>
+  .backlinks {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .backlinks__title {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--fg-muted);
+    font-weight: 600;
+    margin: 0 0 0.6rem;
+  }
+
+  .backlinks__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .backlinks__list a {
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-size: 0.88rem;
+  }
+
+  .backlinks__list a:hover,
+  .backlinks__list a:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+  }
+</style>

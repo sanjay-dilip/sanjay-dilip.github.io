@@ -1,0 +1,60 @@
+---
+interface Props {
+  variant: "note" | "result" | "warn";
+  title: string;
+}
+
+const { variant, title } = Astro.props;
+
+const icons: Record<Props["variant"], string> = {
+  note: "\u{1F4CC}",
+  result: "✅",
+  warn: "⚠️",
+};
+---
+<div class:list={["callout", `callout--${variant}`]} role="note">
+  <p class="callout__title">
+    <span aria-hidden="true">{icons[variant]}</span> {title}
+  </p>
+  <div class="callout__body">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .callout {
+    border-left: 3px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.85rem 1rem;
+    margin: 1.25rem 0;
+    background: var(--bg-elevated);
+  }
+
+  .callout--note {
+    border-left-color: var(--callout-note-border);
+    background: var(--callout-note-bg);
+  }
+
+  .callout--result {
+    border-left-color: var(--callout-result-border);
+    background: var(--callout-result-bg);
+  }
+
+  .callout--warn {
+    border-left-color: var(--callout-warn-border);
+    background: var(--callout-warn-bg);
+  }
+
+  .callout__title {
+    margin: 0 0 0.4rem;
+    font-weight: 700;
+  }
+
+  .callout__body {
+    margin: 0;
+  }
+
+  .callout__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>
