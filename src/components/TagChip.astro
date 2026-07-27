@@ -1,0 +1,31 @@
+---
+interface Props {
+  tag: string;
+  href?: string;
+}
+
+const { tag, href } = Astro.props;
+const Tag = href ? "a" : "span";
+---
+<Tag class="tag-chip" href={href}>#{tag}</Tag>
+
+<style>
+  .tag-chip {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    color: var(--accent);
+    line-height: 1.5;
+  }
+
+  a.tag-chip:hover,
+  a.tag-chip:focus-visible {
+    background: var(--tag-border);
+    text-decoration: none;
+  }
+</style>
