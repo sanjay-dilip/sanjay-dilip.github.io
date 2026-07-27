@@ -1,0 +1,59 @@
+---
+import Header from "../components/Header.astro";
+import Sidebar from "../components/Sidebar.astro";
+import "../styles/theme.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Sanjay Dilip's project portfolio." } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title} · Sanjay Dilip</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      (function () {
+        var saved = localStorage.getItem("vault-theme");
+        if (saved === "light" || saved === "dark") {
+          document.documentElement.setAttribute("data-theme", saved);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <Header />
+    <div class="vault-shell">
+      <Sidebar />
+      <main id="main-content" class="vault-main">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
+
+<style>
+  .vault-shell {
+    display: flex;
+    min-height: calc(100vh - 57px);
+  }
+
+  .vault-main {
+    flex: 1;
+    padding: 2rem 1.5rem;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  .vault-main :global(.page-content) {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+  }
+</style>
