@@ -1,9 +1,90 @@
 ---
 import VaultLayout from "../layouts/VaultLayout.astro";
+import TagChip from "../components/TagChip.astro";
+
+const skillGroups = [
+  {
+    label: "Data Analysis & BI",
+    skills: ["Power BI (DAX)", "Tableau", "KPI reporting", "Dashboard storytelling"],
+  },
+  {
+    label: "Analytics",
+    skills: ["SQL", "Python (pandas)", "Experimentation", "Forecasting"],
+  },
+  {
+    label: "Data Engineering",
+    skills: ["ETL/ELT", "Curated layers (Parquet)", "Data modeling", "Data quality checks"],
+  },
+  {
+    label: "ML & AI",
+    skills: ["NLP", "Recommenders & ranking", "Model evaluation", "LLM/RAG", "Deployment (FastAPI)"],
+  },
+];
+
+const tools = [
+  "SQL",
+  "Power BI",
+  "Python",
+  "scikit-learn",
+  "Streamlit",
+  "FastAPI",
+  "Snowflake",
+  "Azure (ADF/Blob)",
+  "GitHub Actions",
+];
 ---
-<VaultLayout title="About">
+<VaultLayout title="About" description="About Sanjay Dilip — background, skills, and how I work.">
   <div class="page-content">
     <h1>About</h1>
-    <p><em>Bio, skills, and timeline coming soon.</em></p>
+
+    <p>
+      I build end-to-end analytics systems — clean data in, dashboards and decisions out.
+      Most of my work sits at the intersection of BI (Power BI), analytics engineering
+      (SQL + Python), and applied ML/AI when it adds real value over a simpler approach.
+    </p>
+    <p>
+      I care about reproducibility: clear documentation, runnable steps, and honest
+      limitations over inflated claims. I like projects where metrics tie back to a real
+      decision — late-delivery risk, churn risk, ranking quality, evidence-tiered answers —
+      rather than a metric optimized for its own sake.
+    </p>
+
+    <h2>Skills</h2>
+    {skillGroups.map((group) => (
+      <div class="skill-group">
+        <h3>{group.label}</h3>
+        <p class="skill-group__tags">
+          {group.skills.map((skill) => (
+            <TagChip tag={skill} />
+          ))}
+        </p>
+      </div>
+    ))}
+
+    <h2>Tools</h2>
+    <p class="tool-list">
+      {tools.map((tool) => (
+        <TagChip tag={tool} />
+      ))}
+    </p>
   </div>
 </VaultLayout>
+
+<style>
+  .skill-group {
+    margin-bottom: 1.25rem;
+  }
+
+  .skill-group h3 {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .skill-group__tags,
+  .tool-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+  }
+</style>
