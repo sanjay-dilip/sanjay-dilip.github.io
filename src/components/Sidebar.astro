@@ -1,0 +1,106 @@
+---
+const navItems = [
+  { href: "/", label: "Home.md" },
+  { href: "/projects", label: "Projects/" },
+  { href: "/about", label: "About.md" },
+  { href: "/resume", label: "Resume.pdf" },
+  { href: "/contact", label: "Contact.md" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+<aside class="sidebar" id="sidebar" aria-label="Vault navigation">
+  <div class="sidebar__inner">
+    <p class="sidebar__heading">Vault</p>
+    <nav>
+      <ul class="sidebar__list">
+        {navItems.map((item) => {
+          const isActive =
+            item.href === "/"
+              ? currentPath === "/"
+              : currentPath.startsWith(item.href);
+          return (
+            <li>
+              <a
+                href={item.href}
+                class="sidebar__link"
+                aria-current={isActive ? "page" : undefined}
+                data-active={isActive ? "true" : "false"}
+              >
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  </div>
+</aside>
+
+<style>
+  .sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border);
+    width: 260px;
+    flex-shrink: 0;
+    padding: 1.25rem 1rem;
+  }
+
+  .sidebar__heading {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-muted);
+    margin: 0 0 0.75rem 0.25rem;
+  }
+
+  .sidebar__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .sidebar__link {
+    display: block;
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  .sidebar__link:hover,
+  .sidebar__link:focus-visible {
+    background: var(--bg-elevated);
+    text-decoration: none;
+  }
+
+  .sidebar__link[data-active="true"] {
+    background: var(--tag-bg);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  @media (max-width: 767px) {
+    .sidebar {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: min(80vw, 280px);
+      z-index: 40;
+      transform: translateX(-100%);
+      transition: transform 0.2s ease;
+      overflow-y: auto;
+    }
+
+    .sidebar[data-open="true"] {
+      transform: translateX(0);
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.35);
+    }
+  }
+</style>
