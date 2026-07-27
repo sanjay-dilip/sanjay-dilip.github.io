@@ -1,0 +1,82 @@
+---
+import { getCollection, render } from "astro:content";
+import VaultLayout from "../../layouts/VaultLayout.astro";
+import TagChip from "../../components/TagChip.astro";
+import Callout from "../../components/Callout.astro";
+import CaseStudyTabs from "../../components/CaseStudyTabs.astro";
+import Backlinks from "../../components/Backlinks.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content, headings } = await render(project);
+const allProjects = await getCollection("projects");
+
+const tabSections = headings
+  .filter((h) => h.depth === 2)
+  .map((h) => ({ id: h.slug, label: h.text }));
+
+const relatedItems = project.data.related
+  .map((slug) => allProjects.find((p) => p.id === slug))
+  .filter((p) => p !== undefined)
+  .map((p) => ({ href: `/projects/${p.id}`, label: p.data.title }));
+---
+<VaultLayout title={project.data.title} description={project.data.summary}>
+  <div class="page-content">
+    <h1>{project.data.title}</h1>
+    <p class="case-meta">
+      <span>{project.data.role}</span> · <span>{project.data.timeframe}</span> · <span class="case-status">{project.data.status}</span>
+    </p>
+    <p class="case-tags">
+      {project.data.tags.map((tag) => (
+        <TagChip tag={tag} />
+      ))}
+    </p>
+    <p class="case-links">
+      <a href={project.data.github}>GitHub →</a>
+      {project.data.demo && <a href={project.data.demo}>Live demo →</a>}
+    </p>
+
+    <Callout variant="result" title="Key Result">
+      <p>{project.data.keyResult}</p>
+    </Callout>
+
+    <CaseStudyTabs sections={tabSections} />
+
+    <Content />
+
+    <Callout variant="warn" title="What I'd Improve">
+      <p>{project.data.whatIdImprove}</p>
+    </Callout>
+
+    <Backlinks items={relatedItems} />
+  </div>
+</VaultLayout>
+
+<style>
+  .case-meta {
+    color: var(--fg-muted);
+    font-size: 0.9rem;
+  }
+
+  .case-status {
+    text-transform: capitalize;
+  }
+
+  .case-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .case-links {
+    display: flex;
+    gap: 1.25rem;
+  }
+</style>
