@@ -125,10 +125,14 @@ const quickLinks = [
     if (!toggle || !sidebar || !backdrop) return;
 
     function setOpen(open) {
+      var wasOpen = sidebar.getAttribute("data-open") === "true";
       sidebar.setAttribute("data-open", open ? "true" : "false");
       backdrop.setAttribute("data-open", open ? "true" : "false");
       backdrop.hidden = !open;
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (!open && wasOpen && sidebar.contains(document.activeElement)) {
+        toggle.focus();
+      }
     }
 
     toggle.addEventListener("click", function () {
