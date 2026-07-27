@@ -1,37 +1,87 @@
 ---
+// TODO(#4): replace this static list with `getCollection("projects")` once
+// the projects content collection lands, so the sidebar and /projects index
+// share one source of truth.
+const projectLinks = [
+  { href: "/projects/nba-win-probability-engine", label: "nba-win-probability-engine.md" },
+  { href: "/projects/levis-rag", label: "levis-rag.md" },
+  { href: "/projects/supply-chain-disruption-analytics", label: "supply-chain-disruption-analytics.md" },
+  { href: "/projects/movielens-recommender-system", label: "movielens-recommender-system.md" },
+  { href: "/projects/insightpilot", label: "insightpilot.md" },
+  { href: "/projects/letterboxd-sentiment-api", label: "letterboxd-sentiment-api.md" },
+  { href: "/projects/sim2real-engagement", label: "sim2real-engagement.md" },
+];
+
 const navItems = [
   { href: "/", label: "Home.md" },
-  { href: "/projects", label: "Projects/" },
   { href: "/about", label: "About.md" },
   { href: "/resume", label: "Resume.pdf" },
   { href: "/contact", label: "Contact.md" },
 ];
 
 const currentPath = Astro.url.pathname;
+const isOnProjectsPage = currentPath.startsWith("/projects");
+
+function isActive(href: string) {
+  return href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+}
 ---
 <aside class="sidebar" id="sidebar" aria-label="Vault navigation">
   <div class="sidebar__inner">
     <p class="sidebar__heading">Vault</p>
     <nav>
       <ul class="sidebar__list">
-        {navItems.map((item) => {
-          const isActive =
-            item.href === "/"
-              ? currentPath === "/"
-              : currentPath.startsWith(item.href);
-          return (
-            <li>
-              <a
-                href={item.href}
-                class="sidebar__link"
-                aria-current={isActive ? "page" : undefined}
-                data-active={isActive ? "true" : "false"}
-              >
-                {item.label}
-              </a>
-            </li>
-          );
-        })}
+        <li>
+          <a
+            href="/"
+            class="sidebar__link"
+            aria-current={isActive("/") ? "page" : undefined}
+            data-active={isActive("/") ? "true" : "false"}
+          >
+            Home.md
+          </a>
+        </li>
+        <li>
+          <details class="sidebar__folder" open={isOnProjectsPage}>
+            <summary class="sidebar__folder-summary">Projects/</summary>
+            <ul class="sidebar__sublist">
+              <li>
+                <a
+                  href="/projects"
+                  class="sidebar__link sidebar__link--nested sidebar__link--all"
+                  aria-current={currentPath === "/projects" ? "page" : undefined}
+                  data-active={currentPath === "/projects" ? "true" : "false"}
+                >
+                  View all projects
+                </a>
+              </li>
+              {projectLinks.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class="sidebar__link sidebar__link--nested"
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                    data-active={isActive(item.href) ? "true" : "false"}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        </li>
+        {navItems.slice(1).map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class="sidebar__link"
+              aria-current={isActive(item.href) ? "page" : undefined}
+              data-active={isActive(item.href) ? "true" : "false"}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
       </ul>
     </nav>
   </div>
@@ -83,6 +133,69 @@ const currentPath = Astro.url.pathname;
     background: var(--tag-bg);
     color: var(--accent);
     font-weight: 600;
+  }
+
+  .sidebar__folder {
+    border-radius: var(--radius);
+  }
+
+  .sidebar__folder-summary {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    cursor: pointer;
+    padding: 0.4rem 0.6rem;
+    border-radius: var(--radius);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--fg);
+  }
+
+  .sidebar__folder-summary:hover,
+  .sidebar__folder-summary:focus-visible {
+    background: var(--bg-elevated);
+  }
+
+  .sidebar__folder-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .sidebar__folder-summary::before {
+    content: "\25B8";
+    display: inline-block;
+    width: 1rem;
+    flex-shrink: 0;
+    color: var(--fg-muted);
+    font-size: 0.7rem;
+    text-align: center;
+    transition: transform 0.15s ease;
+  }
+
+  .sidebar__folder[open] > .sidebar__folder-summary::before {
+    transform: rotate(90deg);
+  }
+
+  .sidebar__link--all {
+    font-style: italic;
+  }
+
+  .sidebar__sublist {
+    list-style: none;
+    margin: 0.1rem 0 0.25rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .sidebar__link--nested {
+    padding-left: 1.6rem;
+    font-size: 0.82rem;
+    color: var(--fg-muted);
+  }
+
+  .sidebar__link--nested[data-active="true"] {
+    color: var(--accent);
   }
 
   @media (max-width: 767px) {
