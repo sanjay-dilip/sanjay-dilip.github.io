@@ -1,16 +1,13 @@
 ---
-// TODO(#4): replace this static list with `getCollection("projects")` once
-// the projects content collection lands, so the sidebar and /projects index
-// share one source of truth.
-const projectLinks = [
-  { href: "/projects/nba-win-probability-engine", label: "nba-win-probability-engine.md" },
-  { href: "/projects/levis-rag", label: "levis-rag.md" },
-  { href: "/projects/supply-chain-disruption-analytics", label: "supply-chain-disruption-analytics.md" },
-  { href: "/projects/movielens-recommender-system", label: "movielens-recommender-system.md" },
-  { href: "/projects/insightpilot", label: "insightpilot.md" },
-  { href: "/projects/letterboxd-sentiment-api", label: "letterboxd-sentiment-api.md" },
-  { href: "/projects/sim2real-engagement", label: "sim2real-engagement.md" },
-];
+import { getCollection } from "astro:content";
+
+const sortedProjects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const projectLinks = sortedProjects.map((project) => ({
+  href: `/projects/${project.id}`,
+  label: `${project.id}.md`,
+}));
 
 const navItems = [
   { href: "/", label: "Home.md" },
