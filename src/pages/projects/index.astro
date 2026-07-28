@@ -36,6 +36,10 @@ const allTags = Array.from(new Set(projects.flatMap((p) => p.data.tags))).sort()
         </li>
       ))}
     </ul>
+
+    <p class="graph-link">
+      <a href="/graph">View these projects as a graph &rarr;</a>
+    </p>
   </div>
 </VaultLayout>
 
@@ -113,6 +117,20 @@ const allTags = Array.from(new Set(projects.flatMap((p) => p.data.tags))).sort()
     flex-wrap: wrap;
     gap: 0.4rem;
     margin: 0;
+  }
+
+  .graph-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .graph-link a {
+    color: var(--fg-muted);
+  }
+
+  .graph-link a:hover,
+  .graph-link a:focus-visible {
+    color: var(--accent);
   }
 </style>
 
