@@ -21,6 +21,10 @@ const allTags = Array.from(new Set(projects.flatMap((p) => p.data.tags))).sort()
       ))}
     </div>
 
+    <p class="graph-link">
+      <a href="/graph">View these projects as a graph &rarr;</a>
+    </p>
+
     <ul class="project-list">
       {projects.map((project) => (
         <li class="project-card" data-tags={project.data.tags.join(",")}>
@@ -36,10 +40,6 @@ const allTags = Array.from(new Set(projects.flatMap((p) => p.data.tags))).sort()
         </li>
       ))}
     </ul>
-
-    <p class="graph-link">
-      <a href="/graph">View these projects as a graph &rarr;</a>
-    </p>
   </div>
 </VaultLayout>
 
@@ -120,17 +120,18 @@ const allTags = Array.from(new Set(projects.flatMap((p) => p.data.tags))).sort()
   }
 
   .graph-link {
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
+    margin: 0 0 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
   }
 
   .graph-link a {
-    color: var(--fg-muted);
+    color: var(--accent);
   }
 
   .graph-link a:hover,
   .graph-link a:focus-visible {
-    color: var(--accent);
+    text-decoration: underline;
   }
 </style>
 
