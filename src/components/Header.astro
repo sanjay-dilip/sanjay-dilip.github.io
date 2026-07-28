@@ -54,6 +54,7 @@ const quickLinks = [
     font-weight: 700;
     color: var(--fg);
     font-size: 1.05rem;
+    flex-shrink: 0;
   }
 
   .site-title:hover {
@@ -74,6 +75,7 @@ const quickLinks = [
 
   .quick-links {
     margin-left: auto;
+    min-width: 0;
   }
 
   .quick-links ul {
@@ -101,6 +103,16 @@ const quickLinks = [
   @media (max-width: 767px) {
     .sidebar-toggle {
       display: inline-flex;
+    }
+
+    .quick-links {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .quick-links::-webkit-scrollbar {
+      display: none;
     }
 
     .quick-links ul {
