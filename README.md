@@ -1,43 +1,48 @@
-# Astro Starter Kit: Minimal
+# Portfolio
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Sanjay Dilip's project portfolio, built as an Obsidian-vault-styled site: a file-tree
+sidebar, tags, backlinks, and callouts around case studies for featured analytics,
+data engineering, and ML/AI projects. Deployed at
+[sanjay-dilip.github.io](https://sanjay-dilip.github.io).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Stack
 
-## 🚀 Project Structure
+- [Astro](https://astro.build) (static site, content collections)
+- [Vitest](https://vitest.dev) for unit tests
+- GitHub Actions → GitHub Pages for deployment
 
-Inside of your Astro project, you'll see the following folders and files:
+## Structure
 
 ```text
 /
-├── public/
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── content/projects/    # one markdown file per case study
+│   ├── content.config.ts    # projects collection schema
+│   ├── components/          # vault design-system components (tags, callouts, tabs, backlinks, sidebar)
+│   ├── layouts/              # shared page layout
+│   ├── lib/                  # graph data/simulation logic + unit tests
+│   └── pages/                 # Home, About, Resume, Contact, Projects (index + case study), Graph
+├── .github/workflows/deploy.yml   # build + deploy to GitHub Pages on push to main
+└── public/
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Run from the project root:
 
-Any static assets, like images, can be placed in the `public/` directory.
+| Command           | Action                                       |
+| :----------------- | :-------------------------------------------- |
+| `npm install`      | Install dependencies                          |
+| `npm run dev`       | Start local dev server at `localhost:4321`    |
+| `npm run build`     | Build the production site to `./dist/`        |
+| `npm run preview`   | Preview the build locally before deploying    |
+| `npm run test`      | Run the unit test suite (Vitest)              |
+| `npm run astro ...` | Run Astro CLI commands (e.g. `astro check`)   |
 
-## 🧞 Commands
+## Adding a project case study
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Add a new markdown file under `src/content/projects/`, matching the schema in
+`src/content.config.ts` (`title`, `summary`, `tags`, `role`, `timeframe`, `github`,
+`demo`, `related`, `status`, `order`, `keyResult`, `whatIdImprove`). It's picked up
+automatically by the Projects index, the individual case-study page, and the
+`/graph` view.
