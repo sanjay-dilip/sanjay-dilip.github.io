@@ -23,10 +23,10 @@ export interface SimulationOptions {
 }
 
 const DEFAULTS = {
-  repulsionStrength: 2400,
-  springLength: 90,
-  springStrength: 0.02,
-  centeringStrength: 0.01,
+  repulsionStrength: 6000,
+  springLength: 110,
+  springStrength: 0.015,
+  centeringStrength: 0.006,
   damping: 0.85,
 };
 
