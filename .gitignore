@@ -26,3 +26,6 @@ pnpm-debug.log*
 # AI agent instruction files (local tooling config, not public repo content)
 CLAUDE.md
 AGENTS.md
+
+# scratch clone of GitHub profile README repo, not part of this project
+/GitHub readme/
