@@ -24,6 +24,10 @@ const { title, description = "Sanjay Dilip's project portfolio." } = Astro.props
         if (saved === "light" || saved === "dark") {
           document.documentElement.setAttribute("data-theme", saved);
         }
+        var collapsed = localStorage.getItem("vault-sidebar-collapsed");
+        if (collapsed === "true") {
+          document.documentElement.setAttribute("data-sidebar-collapsed", "true");
+        }
       })();
     </script>
   </head>

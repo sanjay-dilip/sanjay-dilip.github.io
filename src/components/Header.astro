@@ -15,7 +15,7 @@ const quickLinks = [
     type="button"
     aria-label="Toggle navigation"
     aria-controls="sidebar"
-    aria-expanded="false"
+    aria-expanded="true"
   >
     <span aria-hidden="true">&#9776;</span>
   </button>
@@ -63,7 +63,7 @@ const quickLinks = [
   }
 
   .sidebar-toggle {
-    display: none;
+    display: inline-flex;
     background: transparent;
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -101,10 +101,6 @@ const quickLinks = [
   }
 
   @media (max-width: 767px) {
-    .sidebar-toggle {
-      display: inline-flex;
-    }
-
     .quick-links {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
@@ -136,6 +132,8 @@ const quickLinks = [
     var backdrop = document.getElementById("sidebar-backdrop");
     if (!toggle || !sidebar || !backdrop) return;
 
+    var mobileQuery = window.matchMedia("(max-width: 767px)");
+
     function setOpen(open) {
       var wasOpen = sidebar.getAttribute("data-open") === "true";
       sidebar.setAttribute("data-open", open ? "true" : "false");
@@ -147,9 +145,33 @@ const quickLinks = [
       }
     }
 
+    function setCollapsed(collapsed) {
+      document.documentElement.setAttribute(
+        "data-sidebar-collapsed",
+        collapsed ? "true" : "false"
+      );
+      sidebar.setAttribute("aria-hidden", collapsed ? "true" : "false");
+      toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      try {
+        localStorage.setItem("vault-sidebar-collapsed", collapsed ? "true" : "false");
+      } catch (e) {}
+    }
+
+    toggle.setAttribute(
+      "aria-expanded",
+      document.documentElement.getAttribute("data-sidebar-collapsed") === "true"
+        ? "false"
+        : "true"
+    );
+
     toggle.addEventListener("click", function () {
-      var isOpen = sidebar.getAttribute("data-open") === "true";
-      setOpen(!isOpen);
+      if (mobileQuery.matches) {
+        var isOpen = sidebar.getAttribute("data-open") === "true";
+        setOpen(!isOpen);
+      } else {
+        var isCollapsed = document.documentElement.getAttribute("data-sidebar-collapsed") === "true";
+        setCollapsed(!isCollapsed);
+      }
     });
 
     backdrop.addEventListener("click", function () {
