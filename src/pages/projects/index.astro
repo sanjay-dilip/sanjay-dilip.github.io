@@ -14,16 +14,17 @@ const allTags = Array.from(new Set(projects.flatMap((p) => p.data.tags))).sort()
     <h1>Projects</h1>
     <p>Featured case studies, ordered by relevance to analytics, data engineering, and applied ML/AI roles.</p>
 
+    <div class="graph-preview">
+      <canvas id="projects-graph-preview-canvas" aria-hidden="true"></canvas>
+      <a href="/graph" class="graph-preview__cta">Open full graph view &rarr;</a>
+    </div>
+
     <div class="tag-filter" role="group" aria-label="Filter projects by tag">
       <button type="button" class="tag-filter__button" data-tag="all" data-active="true">All</button>
       {allTags.map((tag) => (
         <button type="button" class="tag-filter__button" data-tag={tag}>#{tag}</button>
       ))}
     </div>
-
-    <p class="graph-link">
-      <a href="/graph">View these projects as a graph &rarr;</a>
-    </p>
 
     <ul class="project-list">
       {projects.map((project) => (
@@ -119,19 +120,49 @@ const allTags = Array.from(new Set(projects.flatMap((p) => p.data.tags))).sort()
     margin: 0;
   }
 
-  .graph-link {
-    margin: 0 0 1.5rem;
-    font-size: 1rem;
+  .graph-preview {
+    position: relative;
+    margin: 1rem 0 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+    overflow: hidden;
+  }
+
+  #projects-graph-preview-canvas {
+    display: block;
+    width: 100%;
+    height: 280px;
+    cursor: grab;
+  }
+
+  #projects-graph-preview-canvas[data-dragging="true"] {
+    cursor: grabbing;
+  }
+
+  .graph-preview__cta {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--tag-border);
+    border-radius: 999px;
+    background: var(--bg);
+    color: var(--accent);
+    font-size: 0.85rem;
     font-weight: 600;
   }
 
-  .graph-link a {
-    color: var(--accent);
+  .graph-preview__cta:hover,
+  .graph-preview__cta:focus-visible {
+    background: var(--tag-bg);
+    text-decoration: none;
   }
 
-  .graph-link a:hover,
-  .graph-link a:focus-visible {
-    text-decoration: underline;
+  @media (max-width: 767px) {
+    .graph-preview {
+      display: none;
+    }
   }
 </style>
 
@@ -154,4 +185,13 @@ const allTags = Array.from(new Set(projects.flatMap((p) => p.data.tags))).sort()
       });
     });
   });
+</script>
+
+<script>
+  import { initGraphCanvas } from "../../lib/graph-canvas";
+
+  if (!window.matchMedia("(max-width: 767px)").matches) {
+    const canvas = document.getElementById("projects-graph-preview-canvas") as HTMLCanvasElement | null;
+    if (canvas) initGraphCanvas(canvas);
+  }
 </script>
