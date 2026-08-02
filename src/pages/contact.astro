@@ -3,9 +3,9 @@ import VaultLayout from "../layouts/VaultLayout.astro";
 
 const email = "sanjay.dilip3012@gmail.com";
 const links = [
-  { href: `mailto:${email}`, label: "Email me", detail: email },
-  { href: "https://www.linkedin.com/in/sanjaydilip", label: "LinkedIn", detail: "linkedin.com/in/sanjaydilip" },
-  { href: "https://github.com/sanjay-dilip", label: "GitHub", detail: "github.com/sanjay-dilip" },
+  { href: `mailto:${email}`, label: "Email me", detail: email, external: false },
+  { href: "https://www.linkedin.com/in/sanjaydilip", label: "LinkedIn", detail: "linkedin.com/in/sanjaydilip", external: true },
+  { href: "https://github.com/sanjay-dilip", label: "GitHub", detail: "github.com/sanjay-dilip", external: true },
 ];
 ---
 <VaultLayout title="Contact" description="Get in touch with Sanjay Dilip.">
@@ -16,7 +16,12 @@ const links = [
     <ul class="contact-list">
       {links.map((link) => (
         <li>
-          <a href={link.href} class="contact-link">
+          <a
+            href={link.href}
+            class="contact-link"
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
+          >
             <span class="contact-link__label">{link.label}</span>
             <span class="contact-link__detail">{link.detail}</span>
           </a>

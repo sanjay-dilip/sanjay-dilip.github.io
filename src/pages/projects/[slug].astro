@@ -39,8 +39,8 @@ const relatedItems = project.data.related
       ))}
     </p>
     <p class="case-links">
-      <a href={project.data.github}>GitHub →</a>
-      {project.data.demo && <a href={project.data.demo}>Live demo →</a>}
+      <a href={project.data.github} target="_blank" rel="noopener noreferrer">GitHub →</a>
+      {project.data.demo && <a href={project.data.demo} target="_blank" rel="noopener noreferrer">Live demo →</a>}
     </p>
 
     <Callout variant="result" title="Key Result">
