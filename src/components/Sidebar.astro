@@ -93,6 +93,23 @@ function isActive(href: string) {
     padding: 1.25rem 1rem;
   }
 
+  .sidebar__inner {
+    width: 228px;
+  }
+
+  @media (min-width: 768px) {
+    .sidebar {
+      overflow: hidden;
+      transition: width 0.2s ease, padding 0.2s ease;
+    }
+
+    :global(:root[data-sidebar-collapsed="true"]) .sidebar {
+      width: 0;
+      padding: 0;
+      border-right: none;
+    }
+  }
+
   .sidebar__heading {
     font-family: var(--font-mono);
     font-size: 0.75rem;
