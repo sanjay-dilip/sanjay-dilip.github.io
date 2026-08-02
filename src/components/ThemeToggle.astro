@@ -1,28 +1,71 @@
 ---
+const options = [
+  { value: "light", label: "Light", glyph: "&#9728;" },
+  { value: "dark", label: "Dark", glyph: "&#9790;" },
+  { value: "system", label: "System", glyph: "&#9680;" },
+];
 ---
-<button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark and light theme">
-  <span class="theme-toggle__icon" aria-hidden="true">&#9788;</span>
-  <span class="theme-toggle__label">Theme</span>
-</button>
+<div id="theme-toggle" class="theme-toggle" role="group" aria-label="Theme">
+  {options.map((option) => (
+    <button
+      type="button"
+      class="theme-toggle__option"
+      data-theme-option={option.value}
+      aria-pressed="false"
+      title={`${option.label} theme`}
+    >
+      <span aria-hidden="true" set:html={option.glyph} />
+      <span class="theme-toggle__sr-only">{option.label}</span>
+    </button>
+  ))}
+</div>
 
 <style>
   .theme-toggle {
     display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: transparent;
     border: 1px solid var(--border);
-    color: var(--fg);
     border-radius: var(--radius);
-    padding: 0.4rem 0.75rem;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-family: var(--font-body);
+    overflow: hidden;
   }
 
-  .theme-toggle:hover {
-    border-color: var(--accent);
+  .theme-toggle__option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-left: 1px solid var(--border);
+    color: var(--fg-muted);
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    line-height: 1;
+  }
+
+  .theme-toggle__option:first-child {
+    border-left: none;
+  }
+
+  .theme-toggle__option:hover {
     color: var(--accent);
+  }
+
+  .theme-toggle__option[aria-pressed="true"] {
+    background: var(--bg-elevated);
+    color: var(--accent);
+  }
+
+  .theme-toggle__sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 </style>
 
@@ -31,15 +74,43 @@
     var STORAGE_KEY = "vault-theme";
     var root = document.documentElement;
 
+    function apply(preference) {
+      if (preference === "light" || preference === "dark") {
+        root.setAttribute("data-theme", preference);
+      } else {
+        root.removeAttribute("data-theme");
+      }
+    }
+
+    function updatePressed(buttons, preference) {
+      buttons.forEach(function (button) {
+        var isActive = button.getAttribute("data-theme-option") === preference;
+        button.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
-      var button = document.getElementById("theme-toggle");
-      if (!button) return;
-      button.addEventListener("click", function () {
-        var prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-        var current = root.getAttribute("data-theme") || (prefersLight ? "light" : "dark");
-        var next = current === "dark" ? "light" : "dark";
-        localStorage.setItem(STORAGE_KEY, next);
-        root.setAttribute("data-theme", next);
+      var group = document.getElementById("theme-toggle");
+      if (!group) return;
+      var buttons = Array.prototype.slice.call(
+        group.querySelectorAll("[data-theme-option]")
+      );
+
+      var stored = localStorage.getItem(STORAGE_KEY);
+      var current = stored === "light" || stored === "dark" ? stored : "system";
+      updatePressed(buttons, current);
+
+      buttons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var choice = button.getAttribute("data-theme-option");
+          if (choice === "system") {
+            localStorage.removeItem(STORAGE_KEY);
+          } else {
+            localStorage.setItem(STORAGE_KEY, choice);
+          }
+          apply(choice);
+          updatePressed(buttons, choice);
+        });
       });
     });
   })();
