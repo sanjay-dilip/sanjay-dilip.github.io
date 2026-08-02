@@ -1,16 +1,11 @@
 ---
 import VaultLayout from "../layouts/VaultLayout.astro";
-import Callout from "../components/Callout.astro";
 
-const resumePdfPath = "/resume-placeholder.pdf";
+const resumePdfPath = "/resume.pdf";
 ---
 <VaultLayout title="Resume" description="Sanjay Dilip's resume.">
   <div class="page-content">
     <h1>Resume</h1>
-
-    <Callout variant="note" title="Placeholder">
-      <p>The final resume PDF hasn't been added yet — this page currently shows a placeholder.</p>
-    </Callout>
 
     <p>
       <a class="download-link" href={resumePdfPath} download>Download PDF →</a>
