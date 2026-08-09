@@ -8,7 +8,7 @@ github: "https://github.com/sanjay-dilip/sim2real-engagement"
 demo: null
 related: []
 status: "deployed"
-order: 7
+order: 8
 keyResult: "Two parallel pipelines — clean simulated timestamps vs. real gameplay data with no session boundaries — built specifically to expose how churn/retention definitions and feature importance shift when moving from simulation to reality, not to chase the highest accuracy number."
 whatIdImprove: "The comparison is currently framed qualitatively (what changes and why); a natural extension is quantifying how much of the feature-importance shift is attributable to data structure versus genuinely different user behavior between domains."
 ---

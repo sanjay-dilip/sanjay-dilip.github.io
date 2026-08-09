@@ -8,7 +8,7 @@ github: "https://github.com/sanjay-dilip/levis-rag"
 demo: "https://levis-rag.vercel.app"
 related: []
 status: "deployed"
-order: 2
+order: 3
 keyResult: "85.0% Recall@10 (51/60) on the retrieval evaluation set, with 63/64 tests passing."
 whatIdImprove: "Evidence tiering is the core safety mechanism here, but it depends on the retrieval step surfacing the right chunk in the first place; the 15% recall gap is where a wrong or missing citation could still slip through, so expanding the evaluation set and tightening chunk-level retrieval is the highest-leverage next step."
 ---
