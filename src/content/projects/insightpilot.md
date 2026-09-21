@@ -6,7 +6,7 @@ role: "Solo project"
 timeframe: "2026"
 github: "https://github.com/sanjay-dilip/insightpilot"
 demo: null
-related: []
+related: ["drug-interaction-checker"]
 status: "deployed"
 order: 8
 keyResult: "Every finding must reference an actual column name and a computed value; the LLM never receives raw data, only structured, pre-computed statistics, and unsupported claims are explicitly flagged."
