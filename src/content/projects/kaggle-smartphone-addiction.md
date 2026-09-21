@@ -16,3 +16,14 @@ whatIdImprove: "Once the competition closes: record the private leaderboard resu
 ## Overview
 
 The task is binary classification: predict whether a person is flagged as addicted from self-reported screen time, app usage, sleep, and lifestyle fields, scored by ROC AUC on a synthetic Kaggle dataset. Because the data is generated rather than collected, the project spends real effort auditing the generator itself — where the signal actually sits, whether it's exploitable, and whether exploiting it would even be legitimate — rather than only asking what's true about smartphone use in general.
+
+## Results
+
+| Experiment | Model | Feature set | CV mean ROC AUC | Public LB |
+|---|---|---|---|---|
+| E002 | CatBoost | raw predictors | 0.96040 | 0.96151 |
+| E004 | XGBoost | raw predictors | 0.96382 | 0.96539 |
+| E006 | XGBoost | raw + `screen_residual` | 0.96445 | 0.96608 |
+| **E010** | **XGBoost (tuned)** | **raw + `screen_residual`** | **0.96499** | **0.96653** |
+
+`screen_residual` — the gap between `daily_screen_time_hours` and the sum of its three named components — was found during EDA and only accepted after showing a consistent gain across both XGBoost and CatBoost (5/5 folds each). A subsequent ensembling investigation tested CatBoost, LightGBM, and diversity-hedge blends against E010; none beat it, and that negative result was kept and documented rather than discarded. E010 and E008 (CatBoost + `screen_residual`, a model-family diversity hedge) were selected as the two final submissions for judging — the private leaderboard result is pending competition close.
