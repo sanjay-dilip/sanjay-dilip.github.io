@@ -6,7 +6,7 @@ role: "Solo project"
 timeframe: "2026"
 github: "https://github.com/sanjay-dilip/supply-chain-disruption-analytics"
 demo: null
-related: []
+related: ["intelligent-ai-workflow-automation"]
 status: "deployed"
 order: 5
 keyResult: "A full analytics lifecycle — ingestion, monitoring, statistical validation, and predictive modeling — translated into a capacity-based prioritization policy, not just a trained model."
