@@ -8,7 +8,7 @@ github: "https://github.com/sanjay-dilip/movielens-recommender-system"
 demo: null
 related: []
 status: "deployed"
-order: 7
+order: 8
 keyResult: "Combines a pure collaborative-filtering signal (ALS) with content features (genres, user profiles) in a LightGBM hybrid ranker, rather than relying on either signal alone."
 whatIdImprove: "The hybrid ranker currently blends ALS score and content similarity through LightGBM; a natural extension is adding implicit feedback signals (watch time, skips) beyond explicit ratings."
 ---

@@ -6,7 +6,7 @@ role: "Solo project"
 timeframe: "2026"
 github: "https://github.com/sanjay-dilip/drug-interaction-checker"
 demo: null
-related: ["insightpilot"]
+related: ["insightpilot", "property-listing-generator"]
 status: "deployed"
 order: 6
 keyResult: "Every interaction's severity, mechanism, and recommended action comes only from a curated CSV, never inferred from drug classes or general knowledge; the optional LLM step is validated so it cannot change a severity/action, invent a drug or number, or drop a drug name — any validation failure falls back to the deterministic explanation, so the request never fails because of the LLM."
