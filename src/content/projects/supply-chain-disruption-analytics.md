@@ -8,7 +8,7 @@ github: "https://github.com/sanjay-dilip/supply-chain-disruption-analytics"
 demo: null
 related: []
 status: "deployed"
-order: 4
+order: 5
 keyResult: "A full analytics lifecycle — ingestion, monitoring, statistical validation, and predictive modeling — translated into a capacity-based prioritization policy, not just a trained model."
 whatIdImprove: "The predictive layer is deliberately framed as a ranking tool for prioritizing limited intervention capacity, not a black-box delay predictor; the next step is closing the loop with outcome data on whether the prioritized interventions actually reduced delays."
 ---

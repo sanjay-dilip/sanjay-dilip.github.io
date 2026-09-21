@@ -8,7 +8,7 @@ github: "https://github.com/sanjay-dilip/letterboxd-sentiment-api"
 demo: null
 related: []
 status: "deployed"
-order: 7
+order: 8
 keyResult: "~3,500 total reviews processed after cleaning, with ~514 strict weak-labeled reviews and a 49-sample manually labeled evaluation set used to sanity-check the weak-label pipeline against real human judgment."
 whatIdImprove: "The manual evaluation set (49 samples) is small; it's enough to sanity-check the weak-label pipeline but not enough to draw strong conclusions about real-world accuracy — expanding it is the clearest next step."
 ---
