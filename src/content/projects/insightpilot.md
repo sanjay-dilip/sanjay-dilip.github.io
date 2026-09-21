@@ -8,7 +8,7 @@ github: "https://github.com/sanjay-dilip/insightpilot"
 demo: null
 related: []
 status: "deployed"
-order: 6
+order: 7
 keyResult: "Every finding must reference an actual column name and a computed value; the LLM never receives raw data, only structured, pre-computed statistics, and unsupported claims are explicitly flagged."
 whatIdImprove: "The 7-check evaluator catches ungrounded claims after the fact; a stronger version would constrain generation more tightly up front so fewer candidate claims need to be filtered out post-hoc."
 ---
